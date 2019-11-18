@@ -1,0 +1,32 @@
+{
+  "name": "timebomb-web",
+  "version": "1.0.0",
+  "description": "**Note:** this web app was developed using: * npm (6.12.0)",
+  "main": "src/index.jsx",
+  "scripts": {
+    "start": "webpack -w --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/talham7391/timebomb-web.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/talham7391/timebomb-web/issues"
+  },
+  "homepage": "https://github.com/talham7391/timebomb-web#readme",
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "semantic-ui-react": "^0.88.1"
+  }
+}
