@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
-import { Header } from 'semantic-ui-react';
+import { HashRouter, Switch, Route } from 'react-router-dom';
+import HomePage from 'pages/HomePage/index';
 
 class App extends Component {
     render() {
         return (
-            <Header as="h1">Hello, World!</Header>
+            <HashRouter>
+                <Switch exact path="/">
+                    <HomePage/>
+                </Switch>
+            </HashRouter>
         );
     }
 }

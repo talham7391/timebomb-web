@@ -1,3 +1,4 @@
+const path = require("path");
 
 module.exports = {
     entry: "./src/index.jsx",
@@ -12,6 +13,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
+                        plugins: ['babel-plugin-styled-components'],
                         presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 },
@@ -19,6 +21,9 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: ['*', '.js', '.jsx']
+        extensions: ['*', '.js', '.jsx'],
+        alias: {
+            pages: path.resolve(__dirname, './src/pages/'),
+        },
     },
 };
