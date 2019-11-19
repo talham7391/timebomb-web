@@ -13,7 +13,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: ['babel-plugin-styled-components'],
+                        plugins: ['babel-plugin-styled-components', '@babel/transform-runtime'],
                         presets: ['@babel/preset-env', '@babel/preset-react']
                     }
                 },
@@ -24,6 +24,8 @@ module.exports = {
         extensions: ['*', '.js', '.jsx'],
         alias: {
             pages: path.resolve(__dirname, './src/pages/'),
+            client: path.resolve(__dirname, './src/client/'),
+            utils: path.resolve(__dirname, './src/utils/'),
         },
     },
 };

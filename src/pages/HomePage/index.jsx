@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import * as s from "./styles";
 import { Header, Button, Form } from 'semantic-ui-react';
+import * as client from 'client';
 
 class HomePage extends Component {
 
@@ -9,6 +10,8 @@ class HomePage extends Component {
 
         this.state = {
             name: "",
+            creatingGame: false,
+            joiningGame: false,
         };
 
         this.setName = event => {
@@ -19,6 +22,36 @@ class HomePage extends Component {
 
         this.isNameMissing = () => {
             return this.state.name == null || this.state.name === "";
+        };
+
+        this.isMakingRequest = () => {
+            return this.state.creatingGame || this.state.joiningGame;
+        };
+
+        this.shouldDisableButton = () => {
+            return this.isNameMissing() || this.isMakingRequest();
+        };
+
+        this.onCreateGame = async () => {
+            this.setState({ creatingGame: true });
+            try {
+                const roomId = await client.createGame();
+                // transition to game lobby
+            } catch {
+                // show the error
+            }
+            this.setState({ creatingGame: false });
+        };
+
+        this.onJoinGame = async () => {
+            this.setState({ joiningGame: true });
+            const roomId = undefined;
+            if (await client.checkGame(roomId)) {
+                // transition to game lobby
+            } else {
+                // show some error
+            }
+            this.setState({ joiningGame: false });
         };
     }
 
@@ -41,13 +74,25 @@ class HomePage extends Component {
                                     <input
                                         placeholder="bobby"
                                         value={this.state.name}
-                                        onChange={this.setName}/>
+                                        onChange={this.setName}
+                                        disabled={this.isMakingRequest()}/>
                                 </Form.Field>
                             </Form>
                         </s.Form>
                         <s.Buttons>
-                            <Button primary disabled={this.isNameMissing()}>Create Game</Button>
-                            <Button disabled={this.isNameMissing()}>Join Game</Button>
+                            <Button
+                                primary
+                                loading={this.state.creatingGame}
+                                onClick={this.onCreateGame}
+                                disabled={this.shouldDisableButton()}>
+                                Create Game
+                            </Button>
+                            <Button
+                                loading={this.state.joiningGame}
+                                onClick={this.onJoinGame}
+                                disabled={this.shouldDisableButton()}>
+                                Join Game
+                            </Button>
                         </s.Buttons>
                     </s.Menu>
                 </s.Container>
