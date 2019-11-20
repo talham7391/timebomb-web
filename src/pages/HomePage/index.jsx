@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as s from "./styles";
 import { Header, Button, Form } from 'semantic-ui-react';
 import * as client from 'client';
+import JoinModal from './JoinModal';
 
 class HomePage extends Component {
 
@@ -12,6 +13,7 @@ class HomePage extends Component {
             name: "",
             creatingGame: false,
             joiningGame: false,
+            showJoinModal: false,
         };
 
         this.setName = event => {
@@ -36,7 +38,7 @@ class HomePage extends Component {
             this.setState({ creatingGame: true });
             try {
                 const roomId = await client.createGame();
-                // transition to game lobby
+                this.gotoLobby(roomId);
             } catch {
                 // show the error
             }
@@ -44,14 +46,28 @@ class HomePage extends Component {
         };
 
         this.onJoinGame = async () => {
-            this.setState({ joiningGame: true });
-            const roomId = undefined;
+            this.setState({showJoinModal: true});
+        };
+
+        this.onRoomId = async roomId => {
+            this.setState({
+                showJoinModal: false,
+                joiningGame: true,
+            });
             if (await client.checkGame(roomId)) {
-                // transition to game lobby
+                this.gotoLobby(roomId);
             } else {
                 // show some error
             }
             this.setState({ joiningGame: false });
+        };
+
+        this.closeJoinModal = () => {
+            this.setState({showJoinModal: false});
+        };
+
+        this.gotoLobby = roomId => {
+            this.props.history.push(`/lobby/${this.state.name}/${roomId}`);
         };
     }
 
@@ -93,6 +109,10 @@ class HomePage extends Component {
                                 disabled={this.shouldDisableButton()}>
                                 Join Game
                             </Button>
+                            <JoinModal
+                                open={this.state.showJoinModal}
+                                onClose={this.closeJoinModal}
+                                onRoomId={this.onRoomId}/>
                         </s.Buttons>
                     </s.Menu>
                 </s.Container>
