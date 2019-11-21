@@ -3,6 +3,7 @@ import _ from 'lodash';
 import * as s from './styles';
 import * as client from 'client';
 import * as playersStore from 'store/players';
+import * as gameStore from 'store/game';
 import { Header, List, Button } from 'semantic-ui-react';
 import RoomIdDisplay from "components/RoomIdDisplay";
 
@@ -21,6 +22,13 @@ class LobbyPage extends Component {
             });
         };
 
+        this.onGameState = state => {
+            if (state != null) {
+                const { name, roomId } = this.props.match.params;
+                this.props.history.push(`/game/${name}/${roomId}`);
+            }
+        };
+
         this.onStartGame = () => {
             client.startGame();
         };
@@ -30,12 +38,16 @@ class LobbyPage extends Component {
         playersStore.addListener(this.onConnectedPlayers);
         this.onConnectedPlayers(playersStore.connectedPlayers);
 
+        gameStore.addListener(this.onGameState);
+        this.onGameState(gameStore.gameState);
+
         const { name, roomId } = this.props.match.params;
         client.connectToService(name, roomId);
     }
 
     componentWillUnmount() {
         playersStore.removeListener(this.onConnectedPlayers);
+        gameStore.removeListener(this.onGameState);
     }
 
     render() {

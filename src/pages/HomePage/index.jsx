@@ -41,8 +41,8 @@ class HomePage extends Component {
                 this.gotoLobby(roomId);
             } catch {
                 // show the error
+                this.setState({ creatingGame: false });
             }
-            this.setState({ creatingGame: false });
         };
 
         this.onJoinGame = async () => {
@@ -58,8 +58,8 @@ class HomePage extends Component {
                 this.gotoLobby(roomId);
             } else {
                 // show some error
+                this.setState({ joiningGame: false });
             }
-            this.setState({ joiningGame: false });
         };
 
         this.closeJoinModal = () => {

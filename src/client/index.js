@@ -3,6 +3,8 @@ import { sleep } from "utils";
 import io from 'socket.io-client';
 
 import * as playersStore from 'store/players';
+import * as gameStore from 'store/game';
+import * as myInfoStore from 'store/myInfo';
 
 const serviceUrl = "http://localhost:3000";
 
@@ -19,6 +21,15 @@ export function connectToService(name, roomId) {
 
     socket.on("connected-players", data => {
         playersStore.setConnectedPlayers(data);
+    });
+
+    socket.on("game-state", state => {
+        gameStore.setGameState(state);
+        socket.emit("get-info");
+    });
+
+    socket.on("info", info => {
+        myInfoStore.setMyInfo(info);
     });
 
     socket.emit("set-name", name);
