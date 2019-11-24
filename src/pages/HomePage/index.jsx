@@ -71,13 +71,17 @@ class HomePage extends Component {
         };
     }
 
+    componentDidMount() {
+        client.disconnect();
+    }
+
     render() {
         return (
             <s.HomePage>
                 <s.Container>
                     <s.Title>
                         <Header as="h1">Time Bomb</Header>
-                        <img src="https://i.imgur.com/nsdtV4h.png"/>
+                        <img src="https://i.imgur.com/nsdtV4h.png" alt="Bomb icon."/>
                     </s.Title>
                     <s.Description>
                         <p>A game of lies and deception!</p>

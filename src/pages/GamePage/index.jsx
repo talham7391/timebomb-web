@@ -1,38 +1,28 @@
-import React, { Component } from 'react';
-import _ from 'lodash';
+import React from 'react';
+import Page from 'pages/Page';
 import * as s from './styles';
-import * as client from 'client';
 import RoomIdDisplay from "components/RoomIdDisplay";
-import * as myInfoStore from "store/myInfo";
-import * as gameStore from "store/game";
+import MyInfoStore from "store/myInfo";
 
-class GamePage extends Component {
+class GamePage extends Page {
 
     constructor(props) {
         super(props);
 
-        this.onGameState = state => {
-            console.log(state);
-        };
-
         this.onMyInfo = info => {
+            console.log(info);
         };
     }
 
     componentDidMount() {
-        myInfoStore.addListener(this.onMyInfo);
-        this.onMyInfo(myInfoStore.myInfo);
-
-        gameStore.addListener(this.onGameState);
-        this.onGameState(gameStore.gameState);
-
-        const { name, roomId } = this.props.match.params;
-        client.connectToService(name, roomId);
+        super.componentDidMount();
+        this.myInfoStoreKey = MyInfoStore.addListener(this.onMyInfo);
+        this.onMyInfo(MyInfoStore.getValue());
     }
 
     componentWillUnmount() {
-        myInfoStore.removeListener(this.onMyInfo);
-        gameStore.removeListener(this.onGameState);
+        MyInfoStore.removeListener(this.myInfoStoreKey);
+        super.componentWillUnmount()
     }
 
     render() {

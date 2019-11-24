@@ -2,38 +2,61 @@ import axios from 'axios';
 import { sleep } from "utils";
 import io from 'socket.io-client';
 
-import * as playersStore from 'store/players';
-import * as gameStore from 'store/game';
-import * as myInfoStore from 'store/myInfo';
+import PlayersStore from 'store/players';
+import GameStore from 'store/game';
+import MyInfoStore from 'store/myInfo';
 
 const serviceUrl = "http://localhost:3000";
 
 let socket = null;
+let name = null;
+let roomId = null;
 
-export function connectToService(name, roomId) {
-    if (socket != null && socket.connected) {
-        return;
+export const getConnectionInfo = () => ({
+    name,
+    roomId,
+});
+
+export function connect(n, rid) {
+    if (socket != null) {
+        if (socket.connected && name === n && roomId === rid) {
+            return;
+        } else {
+            disconnect();
+        }
     }
 
+    name = n;
+    roomId = rid;
     socket = io(`${serviceUrl}/${roomId}`);
 
     socket.on("connect", () => {});
 
     socket.on("connected-players", data => {
-        playersStore.setConnectedPlayers(data);
+        PlayersStore.setValue(data);
     });
 
-    socket.on("game-state", state => {
-        gameStore.setGameState(state);
+    socket.on("game-started", () => {
         socket.emit("get-info");
     });
 
+    socket.on("game-state", state => {
+        GameStore.setValue(state);
+    });
+
     socket.on("info", info => {
-        myInfoStore.setMyInfo(info);
+        MyInfoStore.setValue(info);
     });
 
     socket.emit("set-name", name);
 }
+
+export const disconnect = () => {
+    if (socket != null) {
+        socket.disconnect();
+    }
+    socket = null;
+};
 
 export function startGame() {
     if (socket != null && socket.connected) {
