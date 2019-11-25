@@ -5,6 +5,7 @@ import GameStore from 'store/game';
 import MyInfoStore from "store/myInfo";
 import RoomIdDisplay from "components/RoomIdDisplay";
 import SnipsDisplay from "components/SnipsDisplay";
+import InfoDisplay from "components/InfoDisplay";
 
 class GamePage extends Page {
 
@@ -22,7 +23,6 @@ class GamePage extends Page {
         };
 
         this.gamePageOnGameState = state => {
-            console.log(state);
             this.setState({ gameState: state });
         };
 
@@ -56,6 +56,8 @@ class GamePage extends Page {
                 </s.Container>
                 <RoomIdDisplay roomId={this.props.match.params.roomId}/>
                 <SnipsDisplay show={this.hasSnips()}/>
+                <InfoDisplay
+                    isGood={this.state.myInfo && this.state.myInfo.data.role === "good"}/>
             </s.GamePage>
         );
     }
