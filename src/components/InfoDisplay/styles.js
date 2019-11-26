@@ -29,6 +29,12 @@ export const WarningContainer = styled.div`
 `;
 
 export const InfoContainer = styled.div`
+    
+    > *:last-child {
+        display: block;
+        margin: auto;
+        margin-top: 10px;
+    }
 `;
 
 export const RoleContainer = styled.div`
@@ -46,5 +52,25 @@ export const RoleContainer = styled.div`
     
     h3:nth-child(2) {
         color: ${props => props.roleColor};
+    }
+`;
+
+export const WiresContainer = styled.div`
+    display: flex;
+    margin-top: 20px;
+`;
+
+export const WireTypeContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    margin: 0px 10px;
+    
+    h1 {
+        margin: 0 !important;
+        margin-top: 10px !important;
+        color: ${props => props.amount > 0 ? "black" : "lightgray"} !important;
     }
 `;

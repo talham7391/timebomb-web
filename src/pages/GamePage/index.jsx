@@ -57,7 +57,8 @@ class GamePage extends Page {
                 <RoomIdDisplay roomId={this.props.match.params.roomId}/>
                 <SnipsDisplay show={this.hasSnips()}/>
                 <InfoDisplay
-                    isGood={this.state.myInfo && this.state.myInfo.data.role === "good"}/>
+                    isGood={this.state.myInfo && this.state.myInfo.data.role === "good"}
+                    wires={this.state.myInfo && this.state.myInfo.data.wires}/>
             </s.GamePage>
         );
     }

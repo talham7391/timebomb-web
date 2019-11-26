@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import * as s from "./styles";
+import _ from "lodash";
 import { Modal, Button, Header } from "semantic-ui-react";
+import Wire from "components/Wire";
 
 class InfoDisplay extends Component {
 
@@ -26,6 +28,10 @@ class InfoDisplay extends Component {
         this.onReady = () => {
             this.setState({bleedWarning: true});
         };
+
+        this.getWiresOfType = type => {
+            return _.filter(this.props.wires, wire => wire.type === type).length;
+        };
     }
 
     render() {
@@ -47,6 +53,15 @@ class InfoDisplay extends Component {
                                         { this.props.isGood ? "Good" : "Bad" }
                                     </Header>
                                 </s.RoleContainer>
+                                <s.WiresContainer>
+                                    { _.map(["dud", "defuse", "bomb"], type => (
+                                        <s.WireTypeContainer key={type} amount={this.getWiresOfType(type)}>
+                                            <Wire type={type}/>
+                                            <Header as="h1">x{this.getWiresOfType(type)}</Header>
+                                        </s.WireTypeContainer>
+                                    ))}
+                                </s.WiresContainer>
+                                <Button onClick={this.onClose}>Done</Button>
                             </s.InfoContainer>
                         :
                             <s.WarningContainer>
