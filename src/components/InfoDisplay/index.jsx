@@ -56,7 +56,7 @@ class InfoDisplay extends Component {
                                 <s.WiresContainer>
                                     { _.map(["dud", "defuse", "bomb"], type => (
                                         <s.WireTypeContainer key={type} amount={this.getWiresOfType(type)}>
-                                            <Wire type={type}/>
+                                            <Wire type={type} revealed={true}/>
                                             <Header as="h1">x{this.getWiresOfType(type)}</Header>
                                         </s.WireTypeContainer>
                                     ))}

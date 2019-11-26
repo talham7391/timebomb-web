@@ -15,7 +15,9 @@ class Index extends Component {
 
     render() {
         return (
-            <s.Wire color={this.colorMap[this.props.type]}>
+            <s.Wire
+                onClick={this.props.onClick}
+                color={this.props.revealed ? this.colorMap[this.props.type] : "lightgray"}>
             </s.Wire>
         );
     }

@@ -48,6 +48,10 @@ export function connect(n, rid) {
         MyInfoStore.setValue(info);
     });
 
+    socket.on("wire-snipped", () => {
+        socket.emit("get-info");
+    });
+
     socket.emit("set-name", name);
 }
 
@@ -77,5 +81,11 @@ export async function checkGame(roomId) {
         return true;
     } catch {
         return false;
+    }
+}
+
+export function snipWire(idx) {
+    if (socket != null && socket.connected) {
+        socket.emit("snip-wire", idx);
     }
 }

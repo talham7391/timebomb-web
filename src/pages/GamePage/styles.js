@@ -8,4 +8,16 @@ export const GamePage = styled.div`
 `;
 
 export const Container = styled.div`
+    display: flex;
+    > * {
+        margin-left: 20px;
+        
+        &:first-child {
+            margin-left: 0px;
+        }
+    }
+`;
+
+export const WireContainer = styled.div`
+    width: 100px;
 `;

@@ -1,11 +1,14 @@
 import React from 'react';
 import Page from 'pages/Page';
 import * as s from './styles';
+import _ from "lodash";
+import * as client from "client";
 import GameStore from 'store/game';
 import MyInfoStore from "store/myInfo";
 import RoomIdDisplay from "components/RoomIdDisplay";
 import SnipsDisplay from "components/SnipsDisplay";
 import InfoDisplay from "components/InfoDisplay";
+import Wire from "components/Wire";
 
 class GamePage extends Page {
 
@@ -31,6 +34,10 @@ class GamePage extends Page {
             const snipsIdx = this.state.gameState && this.state.gameState.playerIndexWithSnips;
             return idx != null && idx === snipsIdx;
         };
+
+        this.onWireClicked = idx => {
+            client.snipWire(idx);
+        };
     }
 
     componentDidMount() {
@@ -53,6 +60,14 @@ class GamePage extends Page {
         return (
             <s.GamePage>
                 <s.Container>
+                    { _.map(this.state.myInfo && this.state.myInfo.data.wires, (wire, idx) => (
+                        <s.WireContainer key={idx}>
+                            <Wire
+                                type={wire.type}
+                                revealed={wire.revealed}
+                                onClick={() => { this.onWireClicked(idx) }}/>
+                        </s.WireContainer>
+                    )) }
                 </s.Container>
                 <RoomIdDisplay roomId={this.props.match.params.roomId}/>
                 <SnipsDisplay show={this.hasSnips()}/>
