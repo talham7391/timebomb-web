@@ -8,6 +8,7 @@ import MyInfoStore from "store/myInfo";
 import RoomIdDisplay from "components/RoomIdDisplay";
 import SnipsDisplay from "components/SnipsDisplay";
 import InfoDisplay from "components/InfoDisplay";
+import RoundHudDisplay from "components/RoundHudDisplay";
 import Wire from "components/Wire";
 import { sleep } from "utils/index";
 
@@ -49,14 +50,24 @@ class GamePage extends Page {
                 this.state.myInfo.data.wires[idx].pulsate = true;
                 this.setState({ myInfo: this.state.myInfo });
 
+                const before = performance.now();
+
                 const type = await client.snipWire(idx);
                 console.log(type);
-                await sleep(1500);
+
+                const after = performance.now();
+                const sleepTime = 1500 - (after - before);
+
+                if (sleepTime > 0) {
+                    await sleep(sleepTime);
+                }
 
                 this.state.myInfo.data.wires[idx].revealed = true;
                 this.state.myInfo.data.wires[idx].pulsate = false;
                 this.setState({ myInfo: this.state.myInfo });
             } catch (err) {
+                this.state.myInfo.data.wires[idx].pulsate = false;
+                this.setState({ myInfo: this.state.myInfo });
                 console.log(err);
             }
         };
@@ -94,6 +105,8 @@ class GamePage extends Page {
                 </s.Container>
                 <RoomIdDisplay roomId={this.props.match.params.roomId}/>
                 <SnipsDisplay show={this.hasSnips()}/>
+                <RoundHudDisplay
+                    defusesFound={this.state.gameState && this.state.gameState.defusesFound}/>
                 <InfoDisplay
                     isGood={this.state.myInfo && this.state.myInfo.data.role === "good"}
                     wires={this.state.myInfo && this.state.myInfo.data.wires}/>
