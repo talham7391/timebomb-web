@@ -21,3 +21,13 @@ export const Container = styled.div`
 export const WireContainer = styled.div`
     width: 100px;
 `;
+
+export const GameOver = styled.div`
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+`;

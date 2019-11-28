@@ -56,6 +56,10 @@ export function connect(n, rid) {
         console.log(`${team} won the game!`);
     });
 
+    socket.on("new-game", () => {
+        socket.emit("get-info");
+    });
+
     socket.emit("set-name", name);
 }
 
@@ -102,4 +106,8 @@ export async function snipWire(idx) {
             rej();
         }
     });
+}
+
+export async function startNewGame() {
+    socket.emit("new-game");
 }

@@ -11,6 +11,7 @@ import InfoDisplay from "components/InfoDisplay";
 import RoundHudDisplay from "components/RoundHudDisplay";
 import Wire from "components/Wire";
 import { sleep } from "utils/index";
+import { Button } from "semantic-ui-react";
 
 class GamePage extends Page {
 
@@ -20,6 +21,7 @@ class GamePage extends Page {
         this.state = {
             myInfo: null,
             gameState: null,
+            showGameOver: null,
         };
 
         this.onMyInfo = info => {
@@ -36,13 +38,36 @@ class GamePage extends Page {
         };
 
         this.gamePageOnGameState = state => {
-            this.setState({ gameState: state });
+            if (state == null) {
+                return;
+            }
+
+            let showGameOver = null;
+            if (this.state.showGameOver == null) {
+                showGameOver = state.gameOver;
+            } else if (this.state.showGameOver !== state.gameOver) {
+                showGameOver = this.state.showGameOver;
+                setTimeout(() => {
+                    this.setState({
+                        showGameOver: state.gameOver,
+                    });
+                }, 3500);
+            }
+
+            this.setState({
+                gameState: state,
+                showGameOver,
+            });
         };
 
         this.hasSnips = () => {
             const idx = this.state.myInfo && this.state.myInfo.index;
             const snipsIdx = this.state.gameState && this.state.gameState.playerIndexWithSnips;
             return idx != null && idx === snipsIdx;
+        };
+
+        this.startNewGame = () => {
+            client.startNewGame();
         };
 
         this.onWireClicked = async idx => {
@@ -110,6 +135,13 @@ class GamePage extends Page {
                 <InfoDisplay
                     isGood={this.state.myInfo && this.state.myInfo.data.role === "good"}
                     wires={this.state.myInfo && this.state.myInfo.data.wires}/>
+                { this.state.showGameOver &&
+                    <s.GameOver>
+                        <Button
+                            primary
+                            onClick={this.startNewGame}>New Game</Button>
+                    </s.GameOver>
+                }
             </s.GamePage>
         );
     }
