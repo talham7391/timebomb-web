@@ -9,6 +9,7 @@ import RoomIdDisplay from "components/RoomIdDisplay";
 import SnipsDisplay from "components/SnipsDisplay";
 import InfoDisplay from "components/InfoDisplay";
 import Wire from "components/Wire";
+import { sleep } from "utils/index";
 
 class GamePage extends Page {
 
@@ -21,8 +22,16 @@ class GamePage extends Page {
         };
 
         this.onMyInfo = info => {
-            console.log(info);
-            this.setState({ myInfo: info });
+            if (this.state.myInfo == null || info == null) {
+                this.setState({ myInfo: info });
+                return;
+            }
+
+            if (this.state.myInfo.data.wires.length !== info.data.wires.length) {
+                setTimeout(() => {
+                    this.setState({ myInfo: info });
+                }, 3500);
+            }
         };
 
         this.gamePageOnGameState = state => {
@@ -35,8 +44,21 @@ class GamePage extends Page {
             return idx != null && idx === snipsIdx;
         };
 
-        this.onWireClicked = idx => {
-            client.snipWire(idx);
+        this.onWireClicked = async idx => {
+            try {
+                this.state.myInfo.data.wires[idx].pulsate = true;
+                this.setState({ myInfo: this.state.myInfo });
+
+                const type = await client.snipWire(idx);
+                console.log(type);
+                await sleep(1500);
+
+                this.state.myInfo.data.wires[idx].revealed = true;
+                this.state.myInfo.data.wires[idx].pulsate = false;
+                this.setState({ myInfo: this.state.myInfo });
+            } catch (err) {
+                console.log(err);
+            }
         };
     }
 
@@ -63,6 +85,7 @@ class GamePage extends Page {
                     { _.map(this.state.myInfo && this.state.myInfo.data.wires, (wire, idx) => (
                         <s.WireContainer key={idx}>
                             <Wire
+                                pulsate={!!wire.pulsate}
                                 type={wire.type}
                                 revealed={wire.revealed}
                                 onClick={() => { this.onWireClicked(idx) }}/>

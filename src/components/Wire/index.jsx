@@ -16,6 +16,7 @@ class Index extends Component {
     render() {
         return (
             <s.Wire
+                className={!!this.props.pulsate ? "pulsate" : ""}
                 onClick={this.props.onClick}
                 color={this.props.revealed ? this.colorMap[this.props.type] : "lightgray"}>
             </s.Wire>

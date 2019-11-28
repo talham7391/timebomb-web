@@ -52,6 +52,10 @@ export function connect(n, rid) {
         socket.emit("get-info");
     });
 
+    socket.on("game-over", team => {
+        console.log(`${team} won the game!`);
+    });
+
     socket.emit("set-name", name);
 }
 
@@ -84,8 +88,18 @@ export async function checkGame(roomId) {
     }
 }
 
-export function snipWire(idx) {
-    if (socket != null && socket.connected) {
-        socket.emit("snip-wire", idx);
-    }
+export async function snipWire(idx) {
+    return new Promise((res, rej) => {
+        if (socket != null && socket.connected) {
+            socket.emit("snip-wire", idx, (err, wireType) => {
+                if (err == null) {
+                    res(wireType);
+                } else {
+                    rej(err);
+                }
+            });
+        } else {
+            rej();
+        }
+    });
 }
