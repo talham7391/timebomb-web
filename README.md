@@ -1,4 +1,10 @@
-# timebomb-web
+<br/>
+<div align="center">
+	<img src="https://github.com/talham7391/timebomb-web/blob/master/docs/images/logo.png"/>
+</div>
+<br/>
+
+# Timebomb Web
 
 **Note:** this web app was developed using:
 * npm (6.12.0)
