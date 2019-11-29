@@ -28,9 +28,14 @@ Read the rules [here](https://cdn.1j1ju.com/medias/ff/29/72-time-bomb-rulebook.p
 2. Other players must join the game using that Room Id.
 3. Once everyone has joined, click "Start Game".
 4. Players can check their role and what wires they've been dealt by clicking the icon in the top right corner.
-4. All players place their phones down in front of them.
-5. To reveal a wire, tap on it. The player with the snips must tap another player's screen.
-6. After X snips, hidden wires are automatically collected and re-dealt. (X is the number of players playing. So 4 players equates to 4 snips per round.)
+5. All players put their phones down in front of them.
+6. To reveal a wire, tap on it. The player with the snips must tap another player's screen.
+7. After X snips, hidden wires are automatically collected and re-dealt. (X is the number of players playing. So 4 players equates to 4 snips per round.)
+
+* Gray square - hidden wire
+* Black square - dud
+* Green square - defuse
+* Red square - bomb
 
 # Screens
 
