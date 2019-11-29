@@ -9,12 +9,14 @@ export const GamePage = styled.div`
 
 export const Container = styled.div`
     display: flex;
+    flex-wrap: wrap;
+    margin-left: -20px;
+    margin-top: -20px;
+    justify-content: center;
+    
     > * {
         margin-left: 20px;
-        
-        &:first-child {
-            margin-left: 0px;
-        }
+        margin-top: 20px;
     }
 `;
 
